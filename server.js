@@ -15,26 +15,26 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const router = express.Router();
 
-const enableCORS = function (req, res, next) {
-  if (!process.env.DISABLE_XORIGIN) {
-    const allowedOrigins = ["*"];
-    const origin = req.headers.origin;
-    if (!process.env.XORIGIN_RESTRICT || allowedOrigins.indexOf(origin) > -1) {
-      console.log(req.method);
-      res.set({
-        "Access-Control-Allow-Origin": origin,
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Origin, X-Requested-With, Content-Type, Accept",
-      });
-    }
-  }
-  next();
-};
+// const enableCORS = function (req, res, next) {
+//   if (!process.env.DISABLE_XORIGIN) {
+//     const allowedOrigins = ["*"];
+//     const origin = req.headers.origin;
+//     if (!process.env.XORIGIN_RESTRICT || allowedOrigins.indexOf(origin) > -1) {
+//       console.log(req.method);
+//       res.set({
+//         "Access-Control-Allow-Origin": origin,
+//         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+//         "Access-Control-Allow-Headers":
+//           "Origin, X-Requested-With, Content-Type, Accept",
+//       });
+//     }
+//   }
+//   next();
+// };
 
 app.use(bodyParser.urlencoded({ extended: "false" }));
 app.use(bodyParser.json());
-app.use("/api", enableCORS, router);
+// app.use("/api", enableCORS, router);
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "views", "index.html"));
