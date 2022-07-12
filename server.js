@@ -41,6 +41,7 @@ app.get("/", function (req, res) {
 
 app.get("/is-mongoose-ok", function (req, res) {
   if (mongoose) {
+    console.log("is-mongoose-ok");
     res.json({ isMongooseOk: !!mongoose.connection.readyState });
   } else {
     res.json({ isMongooseOk: false });
