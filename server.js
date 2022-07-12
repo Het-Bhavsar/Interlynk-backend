@@ -50,6 +50,7 @@ router.get("/is-mongoose-ok", function (req, res) {
 
 router.post("/ble-data",function(req,res){
   console.log(res);
+  // switching services uuid with names, getting manufactuer data if exist 
   res.send("data got");
 })
 const Person = require("./db").PersonModel;
