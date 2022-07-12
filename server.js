@@ -13,7 +13,6 @@ try {
 }
 const path = require("path");
 const bodyParser = require("body-parser");
-const router = express.Router();
 
 // const enableCORS = function (req, res, next) {
 //   if (!process.env.DISABLE_XORIGIN) {
@@ -40,7 +39,7 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
-router.get("/is-mongoose-ok", function (req, res) {
+app.get("/is-mongoose-ok", function (req, res) {
   if (mongoose) {
     res.json({ isMongooseOk: !!mongoose.connection.readyState });
   } else {
@@ -48,7 +47,7 @@ router.get("/is-mongoose-ok", function (req, res) {
   }
 });
 
-router.post("/ble-data",function(req,res){
+app.post("/ble-data",function(req,res){
   console.log(res);
   // switching services uuid with names, getting manufactuer data if exist 
   res.send("data got");
