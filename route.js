@@ -11,7 +11,7 @@ function routes(app, db, accounts, contactList) {
 response.json(cache);
 });
 app.get('/user',async(req,res)=>{
-  console.log(res);
+  res.send("hello");
 })
 }
 
