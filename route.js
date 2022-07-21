@@ -10,6 +10,9 @@ function routes(app, db, accounts, contactList) {
 
 response.json(cache);
 });
+app.get('/',(req,res)=>{
+  res.send('hello')
+})
 app.get('/user',async(req,res)=>{
   res.send("hello");
 })
