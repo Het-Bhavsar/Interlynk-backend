@@ -11,42 +11,63 @@ recordRoutes.get("/hello",(req,res)=>{
   res.send("hello");
 })
 // This section will help you get a list of all the records.
-recordRoutes.route('/user').get(async function (_req, res) {
+recordRoutes.route('/user').post(async function (req, res) {
   const dbConnect = dbo.getDb();
   console.log("hello from user route");
+  const userDocument={
+    key:req.body.key,
+    last_modified: new Date(),
+    wallet:req.body.walletInfo,
+    walletAddres:req.body.walletAddres,
+    userInfo:req.body.userInfo
+
+  }
   dbConnect
-    .collection('user')
-    .find({})
-    .toArray(function (err, result) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      } else {
-        res.json(result);
+    .collection('users')
+    .find({walletAddres: req.body.walletAddres})
+    .then((result)=>{
+      if(result){
+        res.send({msg:"user already exist",result})
+      }else{
+        dbConnect
+        .collection('users')
+        .insertOne(userDocument, function (err, result) {
+          if (err) {
+            res.status(400).send('Error inserting matches!');
+          } else {
+            console.log(`Added a new match with id ${result.insertedId}`);
+            res.send("created new user");
+          }
+        });
       }
+    })
+    
+
+    
     });
-});
+
 
 // This section will help you create a new record.
-recordRoutes.route('/user').post(function (req, res) {
-  const dbConnect = dbo.getDb();
-  const matchDocument = {
-    listing_id: req.body.id,
-    last_modified: new Date(),
-    session_id: req.body.session_id,
-    direction: req.body.direction,
-  };
+// recordRoutes.route('/user').post(function (req, res) {
+//   const dbConnect = dbo.getDb();
+//   const matchDocument = {
+//     listing_id: req.body.id,
+//     last_modified: new Date(),
+//     session_id: req.body.session_id,
+//     direction: req.body.direction,
+//   };
 
-  dbConnect
-    .collection('matches')
-    .insertOne(matchDocument, function (err, result) {
-      if (err) {
-        res.status(400).send('Error inserting matches!');
-      } else {
-        console.log(`Added a new match with id ${result.insertedId}`);
-        res.status(204).send();
-      }
-    });
-});
+//   dbConnect
+//     .collection('matches')
+//     .insertOne(matchDocument, function (err, result) {
+//       if (err) {
+//         res.status(400).send('Error inserting matches!');
+//       } else {
+//         console.log(`Added a new match with id ${result.insertedId}`);
+//         res.status(204).send();
+//       }
+//     });
+// });
 
 // This section will help you update a record by id.
 recordRoutes.route('/listings/updateLike').post(function (req, res) {
