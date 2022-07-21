@@ -29,6 +29,7 @@ route.post('/user',(req,res)=>{
 });
 
 route.post('/BLEdata',(req,res)=>{
+  console.log(req.body);
   const { bleData } = req.body;
   const filter = {walletAddres:req.body.walletAddres}
   User.findOneAndUpdate(filter,{$push:{data:bleData}}, function (error, success) {
