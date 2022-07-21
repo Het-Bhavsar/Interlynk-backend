@@ -1,27 +1,22 @@
-const { MongoClient } = require('mongodb');
 
-const client = new MongoClient(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}.uem2k.mongodb.net/?retryWrites=true&w=majority`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+//importing mongoose
+const mongoose = require("mongoose");
+//taking mongourl from env file
 
-let dbConnection;
+// console.log(mongoUrl)
 
 module.exports = {
-  connectToServer: function (callback) {
-    client.connect(function (err, db) {
-      if (err || !db) {
-        return callback(err);
-      }
+  connectToServer: function () {
+    //connecting mongodb database
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}.uem2k.mongodb.net/?retryWrites=true&w=majority`);
+const connection = mongoose.connection;
 
-      dbConnection = db.db('Interlynk');
-      console.log('Successfully connected to MongoDB.');
+//for checking our connection is done or not
+connection.once("open", function() {
+  console.log("MongoDB database connection established successfully");
+});
 
-      return callback();
-    });
+  return;
   },
 
-  getDb: function () {
-    return dbConnection;
-  },
 };
