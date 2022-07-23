@@ -10,7 +10,8 @@ const userSchema = mongoose.Schema({
   wallet:Object,
   walletAddres:String,
   userInfo:Object,
-  data:Array
+  data:Array,
+  loginMethod:String
 })
 const User = mongoose.model('User',userSchema);
 // This will help us connect to the database
